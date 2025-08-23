@@ -1,43 +1,71 @@
+import { useState } from "react";
 import PostCard from "@/components/common/PostCard";
 import Header from "@/components/layout/Header";
+import PostModal from "@/components/common/PostModal";
 import { PostProps } from "@/interfaces";
 
 interface PostsPageProps {
     posts: PostProps[];
 }
 
+export interface PostData {
+    id: number;
+    title: string;
+    body: string;
+    userId: number;
+}
+
 const Posts: React.FC<PostsPageProps> = ({ posts }) => {
+    const [post, setPost] = useState<PostData | null>(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const handleOpenModal = (post: PostData) => {
+        setPost(post);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setPost(null);
+        setModalOpen(false);
+    };
+
     return (
         <div className="flex flex-col h-screen">
         <Header />
         <main className="p-4">
-            <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-semibold">Post Content</h1>
-            <button className="bg-blue-700 px-4 py-2 rounded-full text-white">
+            <div className="flex justify-between">
+            <h1 className=" text-2xl font-semibold">Post Content</h1>
+            <button
+                onClick={() => setModalOpen(true)}
+                className="bg-blue-700 px-4 py-2 rounded-full text-white"
+            >
                 Add Post
             </button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {posts.map((post: PostProps) => (
+            <div className="grid grid-cols-3 gap-2 ">
+            {posts?.map(({ title, body, userId, id }: PostProps, key: number) => (
                 <PostCard
-                key={post.id} // ✅ use id as stable key instead of index
-                title={post.title}
-                body={post.body}
-                userId={post.userId}
-                id={post.id}
+                title={title}
+                body={body}
+                userId={userId}
+                id={id}
+                key={key}
+                onClick={() => handleOpenModal({ title, body, userId, id })}
                 />
             ))}
             </div>
         </main>
+
+        {isModalOpen && (
+            <PostModal post={post} onClose={handleCloseModal} />
+        )}
         </div>
     );
 };
 
-// ✅ Fetch posts at build time
 export async function getStaticProps() {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const posts: PostProps[] = await response.json();
+    const posts = await response.json();
 
     return {
         props: {

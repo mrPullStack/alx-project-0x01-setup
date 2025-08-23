@@ -20,6 +20,8 @@ const PostModal: React.FC<PostModalProps> = ({ onClose, onSubmit }) => {
         onClose();
     };
 
+    if (!post) return null;
+    
     return (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
         <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">

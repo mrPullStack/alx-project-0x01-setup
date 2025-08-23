@@ -3,6 +3,7 @@ export interface PostProps {
     id: number;
     title: string;
     body: string;
+    onclick?: () => void;
 }
 
 // interfaces/index.ts
@@ -41,6 +42,7 @@ export interface PostData {
 
 // ✅ Props for the PostModal
 export interface PostModalProps {
+    post: PostData | null;
     onClose: () => void;
     onSubmit: (post: PostData) => void;
 }
