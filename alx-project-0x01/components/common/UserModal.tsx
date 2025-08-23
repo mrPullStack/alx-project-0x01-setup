@@ -4,7 +4,7 @@ import { UserData, UserModalProps } from "@/interfaces";
 
 type FormState = Omit<UserData, "id">;
 
-const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSave }) => {
+const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState<FormState>({
     name: "",
     username: "",
@@ -59,7 +59,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSave }) => {
       id: Date.now(), // mock unique ID
       ...formData,
     };
-    onSave(newUser);
+    onSubmit(newUser);
     onClose();
   };
 

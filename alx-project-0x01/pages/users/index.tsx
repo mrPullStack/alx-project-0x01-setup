@@ -37,7 +37,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
       <UserModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
-        onSave={handleAddUser}
+        onSubmit={handleAddUser}
       />
     </div>
   );
