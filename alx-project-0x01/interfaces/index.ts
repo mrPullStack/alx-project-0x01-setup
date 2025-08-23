@@ -30,8 +30,4 @@ export interface UserProps {
     name: string;
     username: string;
     email: string;
-    address: Address;
-    phone: string;
-    website: string;
-    company: Company;
 }
